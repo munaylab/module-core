@@ -1,0 +1,52 @@
+grails:
+    profile: plugin
+    codegen:
+        defaultPackage: munaylab.core
+    spring:
+        transactionManagement:
+            proxies: false
+    gorm:
+        reactor:
+            # Whether to translate GORM events into Reactor events
+            # Disabled by default for performance reasons
+            events: false
+info:
+    app:
+        name: '@info.app.name@'
+        version: '@info.app.version@'
+        grailsVersion: '@info.app.grailsVersion@'
+spring:
+    main:
+        banner-mode: "off"
+    groovy:
+        template:
+            check-template-location: false
+
+# Spring Actuator Endpoints are Disabled by Default
+endpoints:
+    enabled: false
+    jmx:
+        enabled: true
+
+
+---
+gamification:
+  eventos:
+    perfil:
+      nombre: 'EVENTO_PERFIL_COMPLETADO'
+      puntos: 10
+    programa:
+      nombre: 'EVENTO_PROGRAMA_PUBLICADO'
+      puntos: 3
+    proyecto:
+      nombre: 'EVENTO_PROYECTO_PUBLICADO'
+      puntos: 2
+    actividad:
+      nombre: 'EVENTO_ACTIVIDAD_PUBLICADA'
+      puntos: 1
+    evento:
+      nombre: 'EVENTO_EVENTO_PUBLICADO'
+      puntos: 2
+    articulo:
+      nombre: 'EVENTO_ARTICULO_PUBLICADA'
+      puntos: 1
