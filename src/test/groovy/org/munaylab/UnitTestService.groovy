@@ -1,18 +1,7 @@
 package org.munaylab
 
-import org.munaylab.contacto.Contacto
-import org.munaylab.factory.Builder
-import org.munaylab.osc.Organizacion
-import org.munaylab.osc.Voluntario
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.TipoOrganizacion
-import org.munaylab.user.User
-import org.munaylab.security.Token
-import org.munaylab.security.UserRole
-
-import grails.testing.gorm.DataTest
-import grails.testing.services.ServiceUnitTest
-import spock.lang.Specification
 
 interface UnitTestService {
 

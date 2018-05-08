@@ -17,16 +17,31 @@ class ContactoBuilder {
         contacto.tipo = value
         this
     }
+    ContactoBuilder conWeb(value) {
+        contacto.value = value
+        contacto.tipo = TipoContacto.WEB
+        this
+    }
     ContactoBuilder conEmail(value) {
         contacto.value = value
         contacto.tipo = TipoContacto.EMAIL
+        this
+    }
+    ContactoBuilder conTelefono(value) {
+        contacto.value = value
+        contacto.tipo = TipoContacto.TELEFONO
+        this
+    }
+    ContactoBuilder conCelular(value) {
+        contacto.value = value
+        contacto.tipo = TipoContacto.CELULAR
         this
     }
     ContactoBuilder conDatos(properties) {
         contacto.properties = properties
         this
     }
-    Contacto crear() {
+    Contacto getCrear() {
         contacto
     }
 }
@@ -55,7 +70,7 @@ class ContactoCommandBuilder {
         command = new ContactoCommand(properties)
         this
     }
-    ContactoCommand crear() {
+    ContactoCommand getCrear() {
         command
     }
 }

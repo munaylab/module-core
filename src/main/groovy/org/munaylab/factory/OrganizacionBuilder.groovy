@@ -29,7 +29,7 @@ class OrganizacionBuilder {
         this
     }
     OrganizacionBuilder conNombreUrl(String value) {
-        org.nombreUrl = value
+        org.nombreURL = value
         this
     }
     OrganizacionBuilder conFechaConstitucion(String value) {
@@ -52,7 +52,7 @@ class OrganizacionBuilder {
         org.properties = properties
         this
     }
-    Organizacion crear() {
+    Organizacion getCrear() {
         org
     }
 
@@ -109,7 +109,7 @@ class OrganizacionCommandBuilder {
         command.domicilio = value
         this
     }
-    OrganizacionCommand crear() {
+    OrganizacionCommand getCrear() {
         command
     }
 }
@@ -157,7 +157,7 @@ class RegistroCommandBuilder {
         command = new RegistroCommand(properties)
         this
     }
-    RegistroCommand crear() {
+    RegistroCommand getCrear() {
         command
     }
 }
@@ -186,7 +186,7 @@ class ConfirmacionCommandBuilder {
         command = new ConfirmacionCommand(properties)
         this
     }
-    ConfirmacionCommand crear() {
+    ConfirmacionCommand getCrear() {
         command
     }
 }

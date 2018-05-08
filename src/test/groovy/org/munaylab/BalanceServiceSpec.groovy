@@ -19,7 +19,7 @@ class BalanceServiceSpec extends Specification
 
     void 'agregar egreso'() {
         given:
-        Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         and:
         def command = Builder.asiento.command
                 .conDatos(DATOS_EGRESO)
@@ -36,7 +36,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'modificar egreso'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         def egreso = crearEgreso(org).save(flush: true)
         and:
         def command = Builder.asiento.command
@@ -68,7 +68,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'cancelar egreso'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         def egreso = crearEgreso(org).save(flush: true)
         when:
         service.cancelarAsiento(egreso.id)
@@ -79,7 +79,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'agregar ingreso'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         and:
         def command = Builder.asiento.command
                 .conDatos(DATOS_INGRESO)
@@ -96,7 +96,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'modificar ingreso'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         def ingreso = crearIngreso(org).save(flush: true)
         and:
         def command = Builder.asiento.command
@@ -130,7 +130,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'cancelar ingreso'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         def ingreso = crearIngreso(org).save(flush: true)
         when:
         service.cancelarAsiento(ingreso.id)
@@ -249,7 +249,7 @@ class BalanceServiceSpec extends Specification
 
     void 'obtener egresos'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true, failOnError: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true, failOnError: true)
         def categoria = Builder.asiento.crearCategoriaEgreso('nueva categoria').save(flush: true, failOnError: true)
         crearAsientos(org, categoria, TipoAsiento.EGRESO, [10.0, 20.0, 30.0, 40.0])
         when:
@@ -259,7 +259,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener egresos de una categoria'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         def categoria = Builder.asiento.crearCategoriaEgreso('categoria').save(flush: true)
         def otraCategoria = Builder.asiento.crearCategoriaEgreso('otro egreso').save(flush: true)
         crearAsientos(org, categoria, TipoAsiento.EGRESO, [10.0, 20.0, 30.0, 40.0])
@@ -271,7 +271,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener egresos entre fechas'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         def categoria = Builder.asiento.crearCategoriaEgreso('categoria').save(flush: true)
         crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, egreso)
         crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, egreso)
@@ -286,7 +286,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener egresos de categoria entre fechas'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         def categoria = Builder.asiento.crearCategoriaEgreso('categoria').save(flush: true)
         def otraCategoria = Builder.asiento.crearCategoriaEgreso('otra categoria').save(flush: true)
         crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, egreso)
@@ -302,7 +302,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener ingresos'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         def categoria = Builder.asiento.crearCategoriaIngreso('categoria').save(flush: true)
         crearAsientos(org, categoria, TipoAsiento.INGRESO, [10.0, 20.0, 30.0, 40.0])
         when:
@@ -312,7 +312,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener ingresos de una categoria'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         def categoria = Builder.asiento.crearCategoriaIngreso('categoria').save(flush: true)
         def otraCategoria = Builder.asiento.crearCategoriaIngreso('otra categoria').save(flush: true)
         crearAsientos(org, categoria, TipoAsiento.INGRESO, [10.0, 20.0, 30.0, 40.0])
@@ -324,7 +324,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener ingresos entre fechas'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         def categoria = Builder.asiento.crearCategoriaIngreso('categoria').save(flush: true)
         crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, ingreso)
         crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, ingreso)
@@ -339,7 +339,7 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener ingresos de categoria entre fechas'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
         def categoria = Builder.asiento.crearCategoriaIngreso('categoria').save(flush: true)
         def otraCategoria = Builder.asiento.crearCategoriaIngreso('otra categoria').save(flush: true)
         crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, ingreso)

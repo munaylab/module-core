@@ -53,7 +53,7 @@ class DomicilioBuilder {
         domicilio.properties = properties
         this
     }
-    Domicilio crear() {
+    Domicilio getCrear() {
         domicilio
     }
 }
@@ -93,7 +93,7 @@ class DomicilioCommandBuilder {
         command = new DomicilioCommand(properties)
         this
     }
-    DomicilioCommand crear() {
+    DomicilioCommand getCrear() {
         command
     }
 }
