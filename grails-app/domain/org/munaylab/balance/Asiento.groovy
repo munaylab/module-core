@@ -39,8 +39,4 @@ class Asiento {
         "{tiempo:'${fecha.format(formatDate)}', monto:$monto},"
     }
 
-    String toString() {
-        "[id $id, fecha $fecha, mes: $mes, monto $monto, detalle $detalle]"
-    }
-
 }

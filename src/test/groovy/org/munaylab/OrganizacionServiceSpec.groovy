@@ -1,11 +1,8 @@
 package org.munaylab
 
-import org.munaylab.categoria.TipoUsuario
 import org.munaylab.contacto.Contacto
-import org.munaylab.contacto.TipoContacto
 import org.munaylab.factory.Builder
 import org.munaylab.osc.Organizacion
-import org.munaylab.osc.UserOrganizacion
 import org.munaylab.osc.Voluntario
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.TipoOrganizacion
@@ -18,36 +15,7 @@ import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
 class OrganizacionServiceSpec extends Specification
-        implements ServiceUnitTest<OrganizacionService>, DataTest {
-
-    static DATOS_REGISTRO_VALIDOS = [denominacion: 'Fundación MunayLab',
-        tipo: TipoOrganizacion.FUNDACION, nombre: 'Augusto', apellido: 'Caligares',
-        email: 'mcaligares@gmail.com', telefono: '1234567',
-        objeto: 'brindar soluciones a las organizaciones sociales']
-
-    static DATOS_REGISTRO_INVALIDOS = [denominacion: 'Fundación MunayLab',
-        tipo: TipoOrganizacion.FUNDACION, nombre: 'Miguel', apellido: 'Caligares',
-        objeto: 'brindar soluciones a las organizaciones sociales']
-
-    static DATOS_ORG_VALIDOS = [nombre: 'Fundación MunayLab', tipo: TipoOrganizacion.FUNDACION,
-        nombreURL: 'fundacion_munaylab', estado: EstadoOrganizacion.PENDIENTE,
-        objeto: 'brindar soluciones a las organizaciones sociales']
-
-    static DATOS_ORG_VERIFICADA = [nombre: 'Fundación MunayLab', tipo: TipoOrganizacion.FUNDACION,
-        nombreURL: 'fundacion_munaylab', estado: EstadoOrganizacion.VERIFICADA,
-        objeto: 'brindar soluciones a las organizaciones sociales']
-
-    static DATOS_DOMICILIO_VALIDOS = [calle: 'Peat 32', numero: '570', barrio: 'San Pedrito',
-        localidad: 'San Salvador de Jujuy', provincia: 'Jujuy']
-
-    static DATOS_USER = [nombre: 'Augusto', apellido: 'Caligares',
-        username: 'mcaligares@gmail.com', password: 'password']
-
-    static DATOS_VOLUNTARIO_VALIDOS = [orgId: 1, email: 'voluntario@munaylab.org', tipoUsuarioId: 1,
-        nombre: 'miguel', apellido: 'caligares', nacimiento: new Date().parse('yyyy/MM/dd', "1990/1/1")]
-
-    static DATOS_VOLUNTARIO_INVALIDOS = [orgId: 1, tipoUsuarioId: 1,
-        nombre: 'miguel', apellido: 'caligares', nacimiento: new Date()]
+        implements ServiceUnitTest<OrganizacionService>, DataTest, UnitTestService {
 
     def registroCommandValido, registroCommandInvalido
 

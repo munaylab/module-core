@@ -4,13 +4,14 @@ import org.munaylab.balance.Categoria
 import org.munaylab.balance.CategoriaCommand
 import org.munaylab.balance.Asiento
 import org.munaylab.balance.TipoAsiento
+import org.munaylab.factory.Builder
 
 import grails.testing.gorm.DataTest
 import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
 class BalanceServiceSpec extends Specification
-        implements ServiceUnitTest<BalanceService>, DataTest {
+        implements ServiceUnitTest<BalanceService>, DataTest, UnitTestService {
 
     void setupSpec() {
         mockDomains Asiento, Categoria
@@ -18,10 +19,15 @@ class BalanceServiceSpec extends Specification
 
     void 'agregar egreso'() {
         given:
-        Builder.crearOrganizacionConDatos().save(flush: true)
+        Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
         and:
-        def command = Builder.egresoCommand
-        command.categoria = Builder.categoriaEgresoCommand
+        def command = Builder.asiento.command
+                .conDatos(DATOS_EGRESO)
+                .conCategoria(
+                    Builder.asiento.categoriaCommand
+                        .crearCategoriaEgreso('nueva categoria', 'detalle')
+                    )
+                .crear
         when:
         def egreso = service.actualizarAsiento(command)
         then:
@@ -30,13 +36,18 @@ class BalanceServiceSpec extends Specification
     }
     void 'modificar egreso'() {
         given:
-        def egreso = Builder.crearEgreso()
-        egreso.organizacion = Builder.crearOrganizacionConDatos().save(flush: true)
-        egreso.save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def egreso = crearEgreso(org).save(flush: true)
         and:
-        def command = Builder.egresoCommand
-        command.id = 1
-        command.categoria = new CategoriaCommand(id: 1, tipo: TipoAsiento.EGRESO)
+        def command = Builder.asiento.command
+                .conId(1)
+                .conOrgId(1)
+                .conMonto(20.0)
+                .conDetalle('modificado')
+                .conFecha(new Date())
+                .esUnIngreso(false)
+                .conCategoria(Builder.asiento.categoriaCommand.crearCategoriaEgresoConId(1))
+                .crear
         when:
         egreso = service.actualizarAsiento(command)
         then:
@@ -45,11 +56,20 @@ class BalanceServiceSpec extends Specification
         egreso.detalle == command.detalle && Asiento.get(1).detalle == command.detalle
         Categoria.count() == 1
     }
+    private crearEgreso(org) {
+        Builder.asiento
+                .conMonto(10.0)
+                .conDetalle('egreso')
+                .conFecha(new Date())
+                .esUnEgreso()
+                .conCategoria(Builder.asiento.crearCategoriaEgreso('categoria'))
+                .conOrganizacion(org)
+                .crear
+    }
     void 'cancelar egreso'() {
         given:
-        def egreso = Builder.crearEgreso()
-        egreso.organizacion = Builder.crearOrganizacionConDatos().save(flush: true)
-        egreso.save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def egreso = crearEgreso(org).save(flush: true)
         when:
         service.cancelarAsiento(egreso.id)
         then:
@@ -59,10 +79,15 @@ class BalanceServiceSpec extends Specification
     }
     void 'agregar ingreso'() {
         given:
-        Builder.crearOrganizacionConDatos().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
         and:
-        def command = Builder.ingresoCommand
-        command.categoria = Builder.categoriaIngresoCommand
+        def command = Builder.asiento.command
+                .conDatos(DATOS_INGRESO)
+                .conCategoria(
+                    Builder.asiento.categoriaCommand
+                        .crearCategoriaIngreso('nueva categoria', 'detalle')
+                    )
+                .crear
         when:
         def ingreso = service.actualizarAsiento(command)
         then:
@@ -71,26 +96,42 @@ class BalanceServiceSpec extends Specification
     }
     void 'modificar ingreso'() {
         given:
-        def ingreso = Builder.crearIngreso()
-        ingreso.organizacion = Builder.crearOrganizacionConDatos().save(flush: true)
-        ingreso.save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def ingreso = crearIngreso(org).save(flush: true)
         and:
-        def command = Builder.ingresoCommand
-        command.id = 1
-        command.categoria = new CategoriaCommand(id: 1, tipo: TipoAsiento.INGRESO)
+        def command = Builder.asiento.command
+                .conId(1)
+                .conOrgId(1)
+                .conMonto(20.0)
+                .conDetalle('modificado')
+                .conFecha(new Date())
+                .esUnIngreso(true)
+                .conCategoria(Builder.asiento.categoriaCommand.crearCategoriaIngresoConId(1))
+                .crear
         when:
         ingreso = service.actualizarAsiento(command)
         then:
+        assert ingreso.enabled == true
         ingreso != null && Asiento.countByEnabled(true) == 1
         ingreso.monto == command.monto && Asiento.get(1).monto == command.monto
         ingreso.detalle == command.detalle && Asiento.get(1).detalle == command.detalle
         Categoria.count() == 1
     }
+    private crearIngreso(org) {
+        Builder.asiento
+                .conMonto(10.0)
+                .conDetalle('ingreso')
+                .conFecha(new Date())
+                .esUnIngreso()
+                .enabled()
+                .conCategoria(Builder.asiento.crearCategoriaIngreso('categoria'))
+                .conOrganizacion(org)
+                .crear
+    }
     void 'cancelar ingreso'() {
         given:
-        def ingreso = Builder.crearIngreso()
-        ingreso.organizacion = Builder.crearOrganizacionConDatos().save(flush: true)
-        ingreso.save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def ingreso = crearIngreso(org).save(flush: true)
         when:
         service.cancelarAsiento(ingreso.id)
         then:
@@ -99,15 +140,17 @@ class BalanceServiceSpec extends Specification
         Categoria.count() == 1
     }
     void 'crear categoria'() {
+        given:
+        def command = Builder.asiento.categoriaCommand.crearCategoriaIngreso('categoria', 'detalle')
         when:
-        service.actualizarCategoria(Builder.categoriaIngresoCommand)
+        service.actualizarCategoria(command)
         then:
         Categoria.count() == 1
     }
     void 'crear subcategoria'() {
         given:
-        Builder.crearCategoria().save(flush: true)
-        def command = Builder.categoriaIngresoCommand
+        Builder.asiento.crearCategoriaIngreso('categoria').save(flush: true)
+        def command = Builder.asiento.categoriaCommand.crearCategoriaIngreso('subcategoria', 'detalle')
         command.idCategoriaPadre = 1
         when:
         def categoria = service.actualizarCategoria(command)
@@ -117,8 +160,8 @@ class BalanceServiceSpec extends Specification
     }
     void 'modificar categoria'() {
         given:
-        Builder.crearCategoria().save(flush: true)
-        def command = Builder.categoriaIngresoCommand
+        Builder.asiento.crearCategoriaIngreso('categoria').save(flush: true)
+        def command = Builder.asiento.categoriaCommand.crearCategoriaIngreso('modificado', 'detalle...')
         command.id = 1
         when:
         def categoria = service.actualizarCategoria(command)
@@ -131,9 +174,9 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener categorias de egresos'() {
         given:
-        def categoria = Builder.crearCategoria('egreso', TipoAsiento.EGRESO)
+        def categoria = Builder.asiento.crearCategoriaEgreso('egreso')
         5.times {
-            categoria.addToSubcategorias(Builder.crearCategoria("subcategoria $it", TipoAsiento.EGRESO))
+            categoria.addToSubcategorias(Builder.asiento.crearCategoriaEgreso("subcategoria $it"))
         }
         categoria.save(flush: true)
         when:
@@ -144,9 +187,9 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener categorias de ingresos'() {
         given:
-        def categoria = Builder.crearCategoria('ingreso')
+        def categoria = Builder.asiento.crearCategoriaIngreso('ingreso')
         5.times {
-            categoria.addToSubcategorias(Builder.crearCategoria("subcategoria $it"))
+            categoria.addToSubcategorias(Builder.asiento.crearCategoriaIngreso("subcategoria $it"))
         }
         categoria.save(flush: true)
         when:
@@ -173,12 +216,6 @@ class BalanceServiceSpec extends Specification
         20.0    | 20.0    | 10.0    | 10.0     | 10.0     | 10.0     | -20.0
     }
     */
-    void crearAsientos(org, categoria, tipo, values) {
-        values.each {
-            new Asiento(fecha: new Date(), monto: it, detalle: 'asiento',
-                categoria: categoria, organizacion: org, tipo: tipo).save(flush: true, failOnError: true)
-        }
-    }
     /* Metodo groupProperty no funciona en unit test
     void 'calcular balance con fechas'() {
         given:
@@ -197,26 +234,34 @@ class BalanceServiceSpec extends Specification
         [90.0, new Date() -1] | [50.0, new Date() -1]  | -40.0 | new Date() -2 | new Date() -1
     }
     */
+    void crearAsientos(org, categoria, tipo, values) {
+        values.each {
+            Builder.asiento.conFecha(new Date()).conMonto(it).conDetalle('asiento')
+                .conCategoria(categoria).conOrganizacion(org).deTipo(tipo)
+                .crear.save(flush: true, failOnError: true)
+        }
+    }
     void crearAsientosConFechas(org, categoria, tipo, value) {
-        new Asiento(fecha: value[1], monto: value[0], detalle: 'asiento',
-            categoria: categoria, organizacion: org, tipo: tipo).save(flush: true, failOnError: true)
+        Builder.asiento.conFecha(value[1]).conMonto(value[0]).conDetalle('asiento')
+            .conCategoria(categoria).conOrganizacion(org).deTipo(tipo)
+            .crear.save(flush: true, failOnError: true)
     }
 
     void 'obtener egresos'() {
         given:
-        def org = Builder.crearOrganizacionConDatos().save(flush: true)
-        def categoria = Builder.crearCategoriaEgreso().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true, failOnError: true)
+        def categoria = Builder.asiento.crearCategoriaEgreso('nueva categoria').save(flush: true, failOnError: true)
         crearAsientos(org, categoria, TipoAsiento.EGRESO, [10.0, 20.0, 30.0, 40.0])
         when:
-        def list = service.obtenerEgresos(org, 'nueva categoria', new Date(), new Date() + 1)
+        def list = service.obtenerEgresos(org, 'nueva categoria', new Date() -1, new Date() + 1)
         then:
         list.size() == 4
     }
     void 'obtener egresos de una categoria'() {
         given:
-        def org = Builder.crearOrganizacionConDatos().save(flush: true)
-        def categoria = Builder.crearCategoria('categoria', TipoAsiento.EGRESO).save(flush: true)
-        def otraCategoria = Builder.crearCategoriaEgreso().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def categoria = Builder.asiento.crearCategoriaEgreso('categoria').save(flush: true)
+        def otraCategoria = Builder.asiento.crearCategoriaEgreso('otro egreso').save(flush: true)
         crearAsientos(org, categoria, TipoAsiento.EGRESO, [10.0, 20.0, 30.0, 40.0])
         crearAsientos(org, otraCategoria, TipoAsiento.EGRESO, [10.0, 20.0, 30.0, 40.0])
         when:
@@ -226,8 +271,8 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener egresos entre fechas'() {
         given:
-        def org = Builder.crearOrganizacionConDatos().save(flush: true)
-        def categoria = Builder.crearCategoriaEgreso().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def categoria = Builder.asiento.crearCategoriaEgreso('categoria').save(flush: true)
         crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, egreso)
         crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, egreso)
         crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, otroEgreso)
@@ -241,9 +286,9 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener egresos de categoria entre fechas'() {
         given:
-        def org = Builder.crearOrganizacionConDatos().save(flush: true)
-        def categoria = Builder.crearCategoria('categoria', TipoAsiento.EGRESO).save(flush: true)
-        def otraCategoria = Builder.crearCategoriaEgreso().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def categoria = Builder.asiento.crearCategoriaEgreso('categoria').save(flush: true)
+        def otraCategoria = Builder.asiento.crearCategoriaEgreso('otra categoria').save(flush: true)
         crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, egreso)
         crearAsientosConFechas(org, otraCategoria, TipoAsiento.EGRESO, egreso)
         crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, otroEgreso)
@@ -257,19 +302,19 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener ingresos'() {
         given:
-        def org = Builder.crearOrganizacionConDatos().save(flush: true)
-        def categoria = Builder.crearCategoriaIngreso().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def categoria = Builder.asiento.crearCategoriaIngreso('categoria').save(flush: true)
         crearAsientos(org, categoria, TipoAsiento.INGRESO, [10.0, 20.0, 30.0, 40.0])
         when:
-        def list = service.obtenerIngresos(org, 'nueva categoria', new Date(), new Date() + 1)
+        def list = service.obtenerIngresos(org, 'categoria', new Date(), new Date() + 1)
         then:
         list.size() == 4
     }
     void 'obtener ingresos de una categoria'() {
         given:
-        def org = Builder.crearOrganizacionConDatos().save(flush: true)
-        def categoria = Builder.crearCategoria('categoria', TipoAsiento.INGRESO).save(flush: true)
-        def otraCategoria = Builder.crearCategoriaIngreso().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def categoria = Builder.asiento.crearCategoriaIngreso('categoria').save(flush: true)
+        def otraCategoria = Builder.asiento.crearCategoriaIngreso('otra categoria').save(flush: true)
         crearAsientos(org, categoria, TipoAsiento.INGRESO, [10.0, 20.0, 30.0, 40.0])
         crearAsientos(org, otraCategoria, TipoAsiento.INGRESO, [10.0, 20.0, 30.0, 40.0])
         when:
@@ -279,8 +324,8 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener ingresos entre fechas'() {
         given:
-        def org = Builder.crearOrganizacionConDatos().save(flush: true)
-        def categoria = Builder.crearCategoriaIngreso().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def categoria = Builder.asiento.crearCategoriaIngreso('categoria').save(flush: true)
         crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, ingreso)
         crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, ingreso)
         crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, otroIngreso)
@@ -294,9 +339,9 @@ class BalanceServiceSpec extends Specification
     }
     void 'obtener ingresos de categoria entre fechas'() {
         given:
-        def org = Builder.crearOrganizacionConDatos().save(flush: true)
-        def categoria = Builder.crearCategoria('categoria', TipoAsiento.INGRESO).save(flush: true)
-        def otraCategoria = Builder.crearCategoriaEgreso().save(flush: true)
+        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear().save(flush: true)
+        def categoria = Builder.asiento.crearCategoriaIngreso('categoria').save(flush: true)
+        def otraCategoria = Builder.asiento.crearCategoriaIngreso('otra categoria').save(flush: true)
         crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, ingreso)
         crearAsientosConFechas(org, otraCategoria, TipoAsiento.INGRESO, ingreso)
         crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, otroIngreso)

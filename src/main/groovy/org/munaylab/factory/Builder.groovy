@@ -2,14 +2,16 @@ package org.munaylab.factory
 
 class Builder {
 
-    public static OrganizacionBuilder organizacion = new OrganizacionBuilder()
+    static OrganizacionBuilder getOrganizacion() { new OrganizacionBuilder() }
 
-    public static DomicilioBuilder domicilio = new DomicilioBuilder()
+    static DomicilioBuilder getDomicilio() { new DomicilioBuilder() }
 
-    public static ContactoBuilder contacto = new ContactoBuilder()
+    static ContactoBuilder getContacto() { new ContactoBuilder() }
 
-    public static UserBuilder user = new UserBuilder()
+    static UserBuilder getUser() { new UserBuilder() }
 
-    public static VoluntarioBuilder voluntario = new VoluntarioBuilder()
+    static VoluntarioBuilder getVoluntario() { new VoluntarioBuilder() }
+
+    static AsientoBuilder getAsiento() { new AsientoBuilder() }
 
 }
