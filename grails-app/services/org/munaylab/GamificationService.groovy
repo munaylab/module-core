@@ -4,10 +4,10 @@ package org.munaylab
 import org.munaylab.gamification.HistorialPuntaje
 import org.munaylab.gamification.Puntaje
 import org.munaylab.osc.Organizacion
-import org.munaylab.planificacion.Actividad
-import org.munaylab.planificacion.Evento
-import org.munaylab.planificacion.Programa
-import org.munaylab.planificacion.Proyecto
+// import org.munaylab.planificacion.Actividad
+// import org.munaylab.planificacion.Evento
+// import org.munaylab.planificacion.Programa
+// import org.munaylab.planificacion.Proyecto
 
 import grails.gorm.transactions.Transactional
 
@@ -59,7 +59,7 @@ class GamificationService {
         return org
     }
 
-    def operarPuntosPrograma(Programa programa) {
+    /*def operarPuntosPrograma(Programa programa) {
         def programaConfig = grailsApplication.config.gamification.eventos.programa
         programa = comprobarDatosPrograma(programa)
         if (programa.hasErrors()) {
@@ -130,7 +130,7 @@ class GamificationService {
         if (!evento.direccion) evento.errors.rejectValue('direccion', 'evento.direccion.null')
         if (!evento.publicado) evento.errors.rejectValue('publicado', 'evento.publicado.null')
         return evento
-    }
+    }*/
 
     // def operarPuntosArticulo(Articulo articulo) {
     //     def articuloConfig = grailsApplication.config.gamification.eventos.articulo

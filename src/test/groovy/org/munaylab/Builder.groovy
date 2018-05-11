@@ -6,7 +6,6 @@ import org.munaylab.contenido.*
 import org.munaylab.categoria.*
 import org.munaylab.direccion.*
 import org.munaylab.osc.*
-import org.munaylab.planificacion.*
 import org.munaylab.user.*
 import org.munaylab.security.ConfirmacionCommand
 import org.munaylab.security.Token
@@ -84,40 +83,6 @@ class Builder {
     static UserOrganizacion crearMiembroOrganizacion(Organizacion org) {
         new UserOrganizacion(user: crearUser(), organizacion: org,
                 tipo: TipoUsuario.findByNombre('MIEMBRO'), cargo: 'Director Ejecutivo')
-    }
-    static ProgramaCommand getProgramaCommand() {
-        new ProgramaCommand(orgId: 1, nombre: 'mi programa', imagen: 'imagen/de/mi/programa.jpg',
-            descripcion: 'descripcion del programa')
-    }
-    static Programa crearPrograma() {
-        new Programa(nombre: 'Innovaciones Sociales', imagen: 'programa/innovacion',
-            descripcion: 'Brindar innovaciones a las osc.', publicado: true)
-    }
-    static ProyectoCommand getProyectoCommand() {
-        new ProyectoCommand(orgId: 1, programaId: 1, nombre: 'mi proyecto', imagen: 'imagen/de/mi/proyecto.jpg',
-            descripcion: 'descripcion del proyecto')
-    }
-    static Proyecto crearProyecto() {
-        new Proyecto(nombre: 'Taller de Innovaciones', imagen: 'proyecto/programa/innovacion',
-            descripcion: 'Taller donde se exponen innovaciones para la sociedad', publicado: true)
-    }
-    static ActividadCommand getActividadCommand(proyectoId) {
-        new ActividadCommand(orgId: 1, proyectoId: proyectoId, nombre: 'mi actividad', imagen: 'imagen/de/mi/actividad.jpg',
-            descripcion: 'descripcion del actividad')
-    }
-    static Actividad crearActividad() {
-        new Actividad(nombre: 'Presentacion Innovacion', imagen: 'proyecto/actividad/innovacion',
-            descripcion: 'Presentacion de innovaciones realizadas en el taller', publicado: true)
-    }
-    static EventoCommand getEventoCommand() {
-        new EventoCommand(orgId: 1, nombre: 'mi evento', imagen: 'imagen/de/mi/evento.jpg',
-            descripcion: 'descripcion del evento', fechaIni: new Date() + 9, fechaFin: new Date() + 9,
-            fechaDifusion: new Date() + 2, horaIni: '08:00', horaFin: '10:00', direccion: domicilioCommand)
-    }
-    static Evento crearEvento() {
-        new Evento(nombre: 'Presentacion Plataforma', imagen: 'evento/presentacion.jpg',
-            descripcion: 'Presentacion de la plataforma a las OSC locales', publicado: true,
-            fechaIni: new Date() +20, fechaFin: new Date() +21, fechaDifusion: new Date() +10)
     }
     static AsientoCommand getEgresoCommand() {
         new AsientoCommand(monto: 100.0, fecha: new Date(), detalle: 'detalle de asiento', esIngreso: false, orgId: 1)

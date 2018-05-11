@@ -21,7 +21,7 @@ class GamificationServiceSpec extends Specification
         Builder.crearOrganizacionCompleta().save(flush: true)
     }
 
-    void 'sumar puntos por completar perfil'() {
+    /*void 'sumar puntos por completar perfil'() {
         given: 'org con todos los datos de perfil'
         def org = Organizacion.get(1)
         when:
@@ -90,8 +90,8 @@ class GamificationServiceSpec extends Specification
             org.contactos.clear()
         }
         org.save(flush: true)
-    }
-    void 'sumar puntos por publicar programa'() {
+    }*/
+    /*void 'sumar puntos por publicar programa'() {
         given: 'org y programa con todos los datos'
         def org = Organizacion.get(1)
         def programa = org.programas.first()
@@ -357,7 +357,7 @@ class GamificationServiceSpec extends Specification
         if (!direccion) evento.direccion = null
         if (!publicado) evento.publicado = false
         evento.save(flush: true)
-    }
+    }*/
 
     // void 'sumar puntos por publicar articulo'() {
     //     given: 'org y articulo con todos los datos'
