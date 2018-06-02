@@ -12,6 +12,7 @@ class Organizacion {
 
     String nombre
     String objeto
+    String descripcion
     String nombreURL
     Date fechaConstitucion
     TipoOrganizacion tipo
@@ -31,10 +32,11 @@ class Organizacion {
 
     static constraints = {
         nombre size: 3..200, unique: true
-        objeto size: 10..500
+        objeto size: 10..5000
+        descripcion size: 10..1000
+        nombreURL size: 3..250, unique: true
         fechaConstitucion nullable: true
         domicilio nullable: true
-        nombreURL size: 3..250, unique: true
     }
 
 }

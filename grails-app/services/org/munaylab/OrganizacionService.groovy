@@ -27,9 +27,7 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class OrganizacionService {
 
-    // def emailService
     def securityService
-    // def springSecurityService
 
     Organizacion registrar(RegistroCommand command) {
         if (!command || !command.validate())
@@ -49,14 +47,9 @@ class OrganizacionService {
 
         if (!org.hasErrors()) {
             log.info "organizacion registrada id = ${org.id}"
-            // Token token = securityService.generarTokenConfirmacion(representante)
-            // emailService.enviarRegistroOrg(representante, org, token.codigo)
-
             Role role = Role.findByAuthority('ROLE_OSC_ADMIN')
             UserRole adminRole = new UserRole(user: representante, role: role)
             adminRole.save()
-        } else {
-            log.warn "organizacion con errores ${org.errors.allErrors}"
         }
         return org
     }
@@ -81,9 +74,6 @@ class OrganizacionService {
         user.save()
 
         log.info "organizacion confirmada id = ${org.id}"
-        // emailService.enviarBienvenidaOrg(user, org)
-
-        // springSecurityService.reauthenticate(user.username)
         return org
     }
 
@@ -187,7 +177,10 @@ class OrganizacionService {
             admins {
                 eq 'id', user.id
             }
-            eq 'estado', EstadoOrganizacion.REGISTRADA
+            or {
+                eq 'estado', EstadoOrganizacion.REGISTRADA
+                eq 'estado', EstadoOrganizacion.VERIFICADA
+            }
             eq 'enabled', Boolean.TRUE
         }
     }

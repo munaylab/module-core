@@ -8,7 +8,8 @@ interface UnitTestService {
     static final DATOS_REGISTRO_VALIDOS = [denominacion: 'Fundación MunayLab',
         tipo: TipoOrganizacion.FUNDACION, nombre: 'Augusto', apellido: 'Caligares',
         email: 'mcaligares@gmail.com', telefono: '1234567',
-        objeto: 'brindar soluciones a las organizaciones sociales']
+        objeto: 'brindar soluciones a las organizaciones sociales',
+        descripcion: 'brindar soluciones a las organizaciones sociales']
 
     static final DATOS_REGISTRO_INVALIDOS = [denominacion: 'Fundación MunayLab',
         tipo: TipoOrganizacion.FUNDACION, nombre: 'Miguel', apellido: 'Caligares',
@@ -16,11 +17,13 @@ interface UnitTestService {
 
     static final DATOS_ORG_VALIDOS = [nombre: 'Fundación MunayLab', tipo: TipoOrganizacion.FUNDACION,
         nombreURL: 'fundacion_munaylab', estado: EstadoOrganizacion.PENDIENTE,
-        objeto: 'brindar soluciones a las organizaciones sociales']
+        objeto: 'brindar soluciones a las organizaciones sociales',
+        descripcion: 'brindar soluciones a las organizaciones sociales']
 
     static final DATOS_ORG_VERIFICADA = [nombre: 'Fundación MunayLab', tipo: TipoOrganizacion.FUNDACION,
         nombreURL: 'fundacion_munaylab', estado: EstadoOrganizacion.VERIFICADA,
-        objeto: 'brindar soluciones a las organizaciones sociales']
+        objeto: 'brindar soluciones a las organizaciones sociales',
+        descripcion: 'brindar soluciones a las organizaciones sociales']
 
     static final DATOS_DOMICILIO_VALIDOS = [calle: 'Peat 32', numero: '570', barrio: 'San Pedrito',
         localidad: 'San Salvador de Jujuy', provincia: 'Jujuy']

@@ -5,6 +5,7 @@ import org.munaylab.user.User
 class RegistroCommand implements grails.validation.Validateable {
 
     String denominacion
+    String descripcion
     String objeto
     TipoOrganizacion tipo
     //datos del representante
@@ -15,7 +16,8 @@ class RegistroCommand implements grails.validation.Validateable {
 
     static constraints = {
         denominacion size: 3..200
-        objeto size: 10..500
+        objeto size: 10..5000
+        descripcion size: 10..1000
         nombre size: 3..50
         apellido size: 3..30
         email email: true
@@ -28,8 +30,8 @@ class RegistroCommand implements grails.validation.Validateable {
     }
 
     Organizacion getOrganizacion() {
-        new Organizacion(nombre: denominacion, objeto: objeto, nombreURL: nombreURL,
-            tipo: tipo, estado: EstadoOrganizacion.PENDIENTE)
+        new Organizacion(nombre: denominacion, objeto: objeto, descripcion: descripcion,
+            nombreURL: nombreURL, tipo: tipo, estado: EstadoOrganizacion.PENDIENTE)
     }
 
     String getNombreURL() {
@@ -39,7 +41,7 @@ class RegistroCommand implements grails.validation.Validateable {
             if (Character.isLetterOrDigit(caracter)) {
                 nombreURL += it
             } else if (Character.isSpaceChar(caracter)) {
-                nombreURL += '_'
+                nombreURL += '-'
             }
         }
         return nombreURL

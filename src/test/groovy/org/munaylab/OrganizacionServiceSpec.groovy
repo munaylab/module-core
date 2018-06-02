@@ -106,6 +106,7 @@ class OrganizacionServiceSpec extends Specification
                 .deTipo(TipoOrganizacion.ASOCIACION_CIVIL)
                 .conFechaConstitucion(new Date() -100)
                 .crear
+        command.descripcion = 'Hacer de este mundo un mundo mejor.'
         when:
         def orgActualizada = service.guardar(command)
         then:
@@ -132,6 +133,7 @@ class OrganizacionServiceSpec extends Specification
                 .conFechaConstitucion(new Date() -100)
                 .conDomicilio(domicilioCommand)
                 .crear
+        command.descripcion = 'Hacer de este mundo un mundo mejor.'
         when:
         def orgActualizada = service.guardar(command)
         then:
