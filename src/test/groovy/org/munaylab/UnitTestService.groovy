@@ -37,9 +37,4 @@ interface UnitTestService {
     static final DATOS_VOLUNTARIO_INVALIDOS = [orgId: 1, tipoUsuarioId: 1,
         nombre: 'miguel', apellido: 'caligares', nacimiento: new Date()]
 
-    static final DATOS_EGRESO = [monto: 100.0, fecha: new Date(), detalle: 'detalle de asiento',
-        esIngreso: false, orgId: 1]
-
-    static final DATOS_INGRESO = [monto: 10.0, fecha: new Date(), detalle: 'detalle de asiento',
-        esIngreso: true, orgId: 1]
 }

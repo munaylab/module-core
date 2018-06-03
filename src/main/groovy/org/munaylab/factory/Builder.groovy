@@ -12,6 +12,4 @@ class Builder {
 
     static VoluntarioBuilder getVoluntario() { new VoluntarioBuilder() }
 
-    static AsientoBuilder getAsiento() { new AsientoBuilder() }
-
 }

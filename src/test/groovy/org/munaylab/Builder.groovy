@@ -1,6 +1,5 @@
 package org.munaylab
 
-import org.munaylab.balance.*
 import org.munaylab.contacto.*
 import org.munaylab.contenido.*
 import org.munaylab.categoria.*
@@ -83,33 +82,6 @@ class Builder {
     static UserOrganizacion crearMiembroOrganizacion(Organizacion org) {
         new UserOrganizacion(user: crearUser(), organizacion: org,
                 tipo: TipoUsuario.findByNombre('MIEMBRO'), cargo: 'Director Ejecutivo')
-    }
-    static AsientoCommand getEgresoCommand() {
-        new AsientoCommand(monto: 100.0, fecha: new Date(), detalle: 'detalle de asiento', esIngreso: false, orgId: 1)
-    }
-    static AsientoCommand getIngresoCommand() {
-        new AsientoCommand(monto: 100.0, fecha: new Date(), detalle: 'detalle de asiento', esIngreso: true, orgId: 1)
-    }
-    static CategoriaCommand getCategoriaEgresoCommand() {
-        new CategoriaCommand(nombre: 'nueva categoria', detalle: 'detalle', tipo: TipoAsiento.EGRESO)
-    }
-    static CategoriaCommand getCategoriaIngresoCommand() {
-        new CategoriaCommand(nombre: 'nueva categoria', detalle: 'detalle', tipo: TipoAsiento.INGRESO)
-    }
-    static Categoria crearCategoria(String nombre = 'nueva categoria', TipoAsiento tipo = TipoAsiento.INGRESO) {
-        new Categoria(nombre: nombre, tipo: tipo)
-    }
-    static Categoria crearCategoriaEgreso() {
-        new Categoria(nombre: 'nueva categoria', tipo: TipoAsiento.EGRESO)
-    }
-    static Categoria crearCategoriaIngreso() {
-        new Categoria(nombre: 'nueva categoria', tipo: TipoAsiento.INGRESO)
-    }
-    static Asiento crearEgreso() {
-        new Asiento(monto: 10.0, detalle: 'egreso', fecha: new Date(), categoria: crearCategoria(), tipo: TipoAsiento.EGRESO)
-    }
-    static Asiento crearIngreso() {
-        new Asiento(monto: 10.0, detalle: 'ingreso', fecha: new Date(), categoria: crearCategoria(), tipo: TipoAsiento.INGRESO)
     }
     static Organizacion crearOrganizacionCompleta() {
         def actividad = Builder.crearActividad()
