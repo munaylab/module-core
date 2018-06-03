@@ -95,6 +95,7 @@ class OrganizacionService {
 
         org.tipo = command.tipo
         org.nombre = command.nombre
+        org.descripcion = command.descripcion
         org.objeto = command.objeto
         org.fechaConstitucion = command.fechaConstitucion
         org.save()
@@ -102,10 +103,15 @@ class OrganizacionService {
             if (!org.domicilio) org.domicilio = new Domicilio()
             org.domicilio.calle = command.domicilio.calle
             org.domicilio.numero = command.domicilio.numero
+            org.domicilio.piso = command.domicilio.piso
+            org.domicilio.departamento = command.domicilio.departamento
             org.domicilio.barrio = command.domicilio.barrio
             org.domicilio.distrito = command.domicilio.distrito
             org.domicilio.localidad = command.domicilio.localidad
             org.domicilio.provincia = command.domicilio.provincia
+            org.domicilio.pais = command.domicilio.pais
+            org.domicilio.latitudPos = command.domicilio.latitudPos
+            org.domicilio.longitudPos = command.domicilio.longitudPos
             org.domicilio.save()
         }
         return org
