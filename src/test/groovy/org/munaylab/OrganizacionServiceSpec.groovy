@@ -1,14 +1,26 @@
 package org.munaylab
 
 import org.munaylab.contacto.Contacto
-import org.munaylab.factory.Builder
+import org.munaylab.direccion.Domicilio
+import org.munaylab.direccion.DomicilioCommand
+import org.munaylab.contacto.Contacto
+import org.munaylab.contacto.ContactoCommand
+import org.munaylab.contacto.TipoContacto
+import org.munaylab.categoria.TipoUsuario
 import org.munaylab.osc.Organizacion
+import org.munaylab.osc.OrganizacionCommand
+import org.munaylab.osc.UserOrganizacion
+import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.Voluntario
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.TipoOrganizacion
+import org.munaylab.osc.Voluntario
+import org.munaylab.osc.VoluntarioCommand
 import org.munaylab.user.User
+import org.munaylab.user.UserCommand
 import org.munaylab.security.Token
 import org.munaylab.security.UserRole
+import org.munaylab.security.ConfirmacionCommand
 
 import grails.testing.gorm.DataTest
 import grails.testing.services.ServiceUnitTest
@@ -27,10 +39,8 @@ class OrganizacionServiceSpec extends Specification
         service.securityService = Mock(SecurityService)
         service.securityService.generarTokenConfirmacion(_) >> { [value: ''] }
 
-        registroCommandValido = Builder.organizacion.registroCommand
-                .conDatos(DATOS_REGISTRO_VALIDOS).crear
-        registroCommandInvalido = Builder.organizacion.registroCommand
-                .conDatos(DATOS_REGISTRO_INVALIDOS).crear
+        registroCommandValido = new RegistroCommand(DATOS_REGISTRO_VALIDOS)
+        registroCommandInvalido = new RegistroCommand(DATOS_REGISTRO_INVALIDOS)
 
     }
 
@@ -64,8 +74,12 @@ class OrganizacionServiceSpec extends Specification
         given:
         registrarUnaOrganizacionConDatos(registroCommandValido)
         and:
-        def confirmacionCommand = Builder.organizacion.confirmacionCommand
-                .conCodigo('codigo').conAmbasPassword('asdQWE123').crear
+        def confirmacionCommand = new ConfirmacionCommand().with {
+            codigo      = 'codigo'
+            password1   = 'asdQWE123'
+            password2   = 'asdQWE123'
+            it
+        }
         when:
         service.confirmar(confirmacionCommand, User.get(1))
         then:
@@ -75,8 +89,12 @@ class OrganizacionServiceSpec extends Specification
         given:
         registrarUnaOrganizacionConDatos(registroCommandValido)
         and:
-        def confirmacionCommand = Builder.organizacion.confirmacionCommand
-                .conCodigo('codigo').conAmbasPassword('asdQWE123').crear
+        def confirmacionCommand = new ConfirmacionCommand().with {
+            codigo      = 'codigo'
+            password1   = 'asdQWE123'
+            password2   = 'asdQWE123'
+            it
+        }
         when:
         service.confirmar(confirmacionCommand, new User())
         then:
@@ -90,23 +108,23 @@ class OrganizacionServiceSpec extends Specification
     }
     void 'listar organizaciones registradas'() {
         given:
-        Builder.organizacion.conDatos(DATOS_ORG_VALIDOS)
-                .conEstado(EstadoOrganizacion.REGISTRADA)
-                .crear.save(flush: true)
+        new Organizacion(DATOS_ORG_REGISTRADA).save(flush: true)
         expect:
         service.organizacionesRegistradas.size() == 1
     }
     void 'guardar datos'() {
         given:
-        Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
+        new Organizacion(DATOS_ORG_VERIFICADA).save(flush: true)
         and:
-        def command = Builder.organizacion.command.conId(1)
-                .conNombre('MunayLab')
-                .conObjeto('Hacer de este mundo un mundo mejor.')
-                .deTipo(TipoOrganizacion.ASOCIACION_CIVIL)
-                .conFechaConstitucion(new Date() -100)
-                .crear
-        command.descripcion = 'Hacer de este mundo un mundo mejor.'
+        def command = new OrganizacionCommand().with {
+            id                  = 1
+            nombre              = 'MunayLab'
+            objeto              = 'Hacer de este mundo un mundo mejor.'
+            descripcion         = 'Hacer de este mundo un mundo mejor.'
+            tipo                = TipoOrganizacion.ASOCIACION_CIVIL
+            fechaConstitucion   = new Date() -100
+            it
+        }
         when:
         def orgActualizada = service.guardar(command)
         then:
@@ -114,26 +132,29 @@ class OrganizacionServiceSpec extends Specification
     }
     void 'guardar direccion'() {
         given:
-        Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA)
-                .conDomicilio(Builder.domicilio.conDatos(DATOS_DOMICILIO_VALIDOS).crear)
-                .crear.save(flush: true)
+        def org = new Organizacion(DATOS_ORG_VERIFICADA)
+        org.domicilio = new Domicilio(DATOS_DOMICILIO_VALIDOS)
+        org.save(flush: true)
         and:
-        def domicilioCommand = Builder.domicilio.command
-                .conId(1)
-                .conCalle('Reconquista')
-                .conNumero('1125')
-                .conBarrio('Centro')
-                .conLocalidad('CABA')
-                .conProvincia('Buenos Aires')
-                .crear
-        def command = Builder.organizacion.command.conId(1)
-                .conNombre('MunayLab')
-                .conObjeto('Hacer de este mundo un mundo mejor.')
-                .deTipo(TipoOrganizacion.ASOCIACION_CIVIL)
-                .conFechaConstitucion(new Date() -100)
-                .conDomicilio(domicilioCommand)
-                .crear
-        command.descripcion = 'Hacer de este mundo un mundo mejor.'
+        def domicilioCommand = new DomicilioCommand().with {
+            id          = 1
+            calle       = 'Reconquista'
+            numero      = '1125'
+            barrio      = 'Centro'
+            localidad   = 'CABA'
+            provincia   = 'Buenos Aires'
+            it
+        }
+        def command = new OrganizacionCommand().with {
+            id                  = 1
+            nombre              = 'MunayLab'
+            objeto              = 'Hacer de este mundo un mundo mejor'
+            descripcion         = 'Hacer de este mundo un mundo mejor'
+            tipo                = TipoOrganizacion.ASOCIACION_CIVIL
+            fechaConstitucion   = new Date() -100
+            domicilio           = domicilioCommand
+            it
+        }
         when:
         def orgActualizada = service.guardar(command)
         then:
@@ -157,8 +178,8 @@ class OrganizacionServiceSpec extends Specification
 
     void 'agregar contacto'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
-        def command = Builder.contacto.command.conEmail('mcaligares@gmail.com').crear
+        def org = new Organizacion(DATOS_ORG_VERIFICADA).save(flush: true)
+        def command = new ContactoCommand(value: 'mcaligares@gmail.com', tipo: TipoContacto.EMAIL)
         when:
         org = service.actualizarContactos(org, command)
         then:
@@ -166,25 +187,27 @@ class OrganizacionServiceSpec extends Specification
     }
     void 'eliminar contacto'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear
-                .addToContactos(Builder.contacto.conEmail('mcaligares@gmail.com').crear)
+        def contacto = new Contacto(value: 'mcaligares@gmail.com', tipo: TipoContacto.EMAIL)
+        def org = new Organizacion(DATOS_ORG_VERIFICADA)
+                .addToContactos(contacto)
                 .save(flush: true)
         when:
-        org = service.eliminarContacto(org, Builder.contacto.command.conId(1).crear)
+        org = service.eliminarContacto(org, new ContactoCommand().with { id = 1; it })
         then:
         Contacto.count() == 0 && org.contactos.size() == 0
         Organizacion.get(1).contactos.size() == 0
     }
     void 'agregar administrador'() {
         given:
-        def admin = Builder.user.administrador.save(flush:true)
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
-        def command = Builder.user.command
-                .conNombre('Augusto')
-                .conApellido('Caligares')
-                .conUsername('mcaligares@gmail.com')
-                .deTipo(admin)
-                .crear
+        def admin = new TipoUsuario(nombre: 'ADMINISTRADOR').save(flush:true)
+        def org = new Organizacion(DATOS_ORG_VERIFICADA).save(flush: true)
+        def command = new UserCommand().with {
+            nombre      = 'Augusto'
+            apellido    = 'Caligares'
+            username    = 'mcaligares@gmail.com'
+            tipo        = admin.id
+            it
+        }
         when:
         org = service.actualizarUsuario(org, command)
         then:
@@ -193,35 +216,31 @@ class OrganizacionServiceSpec extends Specification
     }
     void 'eliminar administrador'() {
         given:
-        def user = Builder.user.conDatos(DATOS_USER).crear
-        def admin = Builder.user.administrador.save(flush:true)
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear
+        def user = new User(DATOS_USER)
+        def admin = new TipoUsuario(nombre: 'ADMINISTRADOR').save(flush:true)
+        def org = new Organizacion(DATOS_ORG_VERIFICADA)
         org.addToAdmins(
-                Builder.organizacion.userOrganizacion
-                        .conUser(user)
-                        .conOrganizacion(org)
-                        .deTipo(admin)
-                        .crear
-                )
-            .save(flush: true)
+            new UserOrganizacion(user: user, organizacion: org, tipo: admin)
+        ).save(flush: true)
         when:
-        org = service.eliminarUsuario(org, Builder.user.command.conId(1).crear)
+        org = service.eliminarUsuario(org, new UserCommand().with { id = 1; it })
         then:
         User.count() == 1 && org.admins.size() == 0
         Organizacion.get(1).admins.size() == 0
     }
     void 'agregar miembro'() {
         given:
-        Builder.user.administrador.save(flush:true)
-        def miembro = Builder.user.miembro.save(flush:true)
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
-        def command = Builder.user.command
-                .conNombre('Augusto')
-                .conApellido('Caligares')
-                .conUsername('mcaligares@gmail.com')
-                .deTipo(miembro)
-                .conCargo('Director Ejecutivo')
-                .crear
+        new TipoUsuario(nombre: 'ADMINISTRADOR').save(flush:true)
+        def miembro = new TipoUsuario(nombre: 'MIEMBRO').save(flush:true)
+        def org = new Organizacion(DATOS_ORG_VERIFICADA).save(flush: true)
+        def command = new UserCommand().with {
+            nombre      = 'Augusto'
+            apellido    = 'Caligares'
+            username    = 'mcaligares@gmail.com'
+            tipo        = miembro.id
+            cargo       = 'Director Ejecutivo'
+            it
+        }
         when:
         org = service.actualizarUsuario(org, command)
         then:
@@ -230,27 +249,22 @@ class OrganizacionServiceSpec extends Specification
     }
     void 'eliminar miembro'() {
         given:
-        def miembro = Builder.user.miembro.save(flush:true)
-        def user = Builder.user.conDatos(DATOS_USER).crear.save(flush:true)
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
+        def miembro = new TipoUsuario(nombre: 'MIEMBRO').save(flush:true)
+        def user = new User(DATOS_USER).save(flush:true)
+        def org = new Organizacion(DATOS_ORG_VERIFICADA).save(flush: true)
         org.addToMiembros(
-                Builder.organizacion.userOrganizacion
-                        .conUser(user)
-                        .conOrganizacion(org)
-                        .deTipo(miembro)
-                        .crear
-                )
-            .save(flush: true)
+            new UserOrganizacion(user: user, organizacion: org, tipo: miembro)
+        ).save(flush: true)
         when:
-        org = service.eliminarUsuario(org, Builder.user.command.conId(1).crear)
+        org = service.eliminarUsuario(org, new UserCommand().with { id = 1; it })
         then:
         User.count() == 1 && org.miembros.size() == 0
         Organizacion.get(1).miembros.size() == 0
     }
     void 'agregar voluntario'() {
         given:
-        def command = Builder.voluntario.command.conDatos(DATOS_VOLUNTARIO_VALIDOS).crear
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
+        def command = new VoluntarioCommand(DATOS_VOLUNTARIO_VALIDOS)
+        def org = new Organizacion(DATOS_ORG_VERIFICADA).save(flush: true)
         when:
         def result = service.actualizarVoluntario(command, org)
         then:
@@ -259,40 +273,40 @@ class OrganizacionServiceSpec extends Specification
     }
     void 'agregar voluntario con errores'() {
         given:
-        def command = Builder.voluntario.command.conDatos(DATOS_VOLUNTARIO_INVALIDOS).crear
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
+        def command = new VoluntarioCommand(DATOS_VOLUNTARIO_INVALIDOS)
+        def org = new Organizacion(DATOS_ORG_VERIFICADA).save(flush: true)
         expect:
         service.actualizarVoluntario(command, org).errores != null
     }
     void 'agregar voluntario con domicilio'() {
         given:
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
-        def command = Builder.voluntario.command
-                .conDatos(DATOS_VOLUNTARIO_VALIDOS)
-                .conDomicilio(
-                    Builder.domicilio.command
-                        .conCalle('Reconquista')
-                        .conNumero('1125')
-                        .conBarrio('Centro')
-                        .conLocalidad('CABA')
-                        .conProvincia('Buenos Aires')
-                        .crear
-                    )
-                .crear
+        def org = new Organizacion(DATOS_ORG_VERIFICADA).save(flush: true)
+        def domicilioCommand = new DomicilioCommand().with {
+            calle       = 'Reconquista'
+            numero      = '1125'
+            barrio      = 'Centro'
+            localidad   = 'CABA'
+            provincia   = 'Buenos Aires'
+            it
+        }
+        def command = new VoluntarioCommand(DATOS_VOLUNTARIO_VALIDOS).with {
+            domicilio = domicilioCommand
+            it
+        }
         expect:
         service.actualizarVoluntario(command, org).valor.id == 1
     }
     void 'modificar voluntario'() {
         given:
-        def command = Builder.voluntario.command.conDatos(DATOS_VOLUNTARIO_VALIDOS).crear
-        def org = Builder.organizacion.conDatos(DATOS_ORG_VERIFICADA).crear.save(flush: true)
+        def command = new VoluntarioCommand(DATOS_VOLUNTARIO_VALIDOS)
+        def org = new Organizacion(DATOS_ORG_VERIFICADA).save(flush: true)
         service.actualizarVoluntario(command, org)
         and:
-        def commandUpdated = Builder.voluntario.command
-                .conDatos(DATOS_VOLUNTARIO_VALIDOS)
-                .conId(1)
-                .conNombre('Augusto')
-                .crear
+        def commandUpdated = new VoluntarioCommand(DATOS_VOLUNTARIO_VALIDOS).with {
+            id      = 1
+            nombre  = 'Augusto'
+            it
+        }
         when:
         def result = service.actualizarVoluntario(commandUpdated, org)
         then:

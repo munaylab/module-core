@@ -25,6 +25,11 @@ interface UnitTestService {
         objeto: 'brindar soluciones a las organizaciones sociales',
         descripcion: 'brindar soluciones a las organizaciones sociales']
 
+    static final DATOS_ORG_REGISTRADA = [nombre: 'Fundación MunayLab', tipo: TipoOrganizacion.FUNDACION,
+        nombreURL: 'fundacion_munaylab', estado: EstadoOrganizacion.REGISTRADA,
+        objeto: 'brindar soluciones a las organizaciones sociales',
+        descripcion: 'brindar soluciones a las organizaciones sociales']
+
     static final DATOS_DOMICILIO_VALIDOS = [calle: 'Peat 32', numero: '570', barrio: 'San Pedrito',
         localidad: 'San Salvador de Jujuy', provincia: 'Jujuy']
 
