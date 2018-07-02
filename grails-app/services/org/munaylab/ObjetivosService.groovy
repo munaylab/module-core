@@ -30,6 +30,8 @@ class ObjetivosService {
         Objetivo objetivo = Objetivo.get(idObjetivo)
         if (!objetivo) return
 
+        if (!org?.objetivos?.contains(objetivo)) return
+
         org.removeFromObjetivos(objetivo)
         org.save()
     }

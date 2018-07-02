@@ -42,4 +42,28 @@ class ObjetivosServiceSpec extends Specification
         !org.hasErrors()
         org.objetivos.size() == 1
     }
+    void 'eliminar unico objetivo'() {
+        given:
+        def objetivo = new Objetivo(DATOS_OBJETIVO).save(flush: true)
+        def org = new Organizacion(DATOS_ORG_VERIFICADA).save(flush: true)
+        org.addToObjetivos(objetivo).save(flush: true)
+        assert org.objetivos.size() == 1
+        when:
+        service.eliminarObjetivo(org, objetivo.id)
+        then:
+        org.objetivos.size() == 0
+    }
+    void 'eliminar un objetivo'() {
+        given:
+        def org = new Organizacion(DATOS_ORG_VERIFICADA)
+                .addToObjetivos(new Objetivo(DATOS_OBJETIVO).save(flush: true))
+                .addToObjetivos(new Objetivo(DATOS_OBJETIVO).save(flush: true))
+                .addToObjetivos(new Objetivo(DATOS_OBJETIVO).save(flush: true))
+                .save(flush: true)
+        assert org.objetivos.size() == 3
+        when:
+        service.eliminarObjetivo(org, 1)
+        then:
+        org.objetivos.size() == 2
+    }
 }
