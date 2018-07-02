@@ -3,6 +3,7 @@ package org.munaylab.osc
 import org.munaylab.contacto.Contacto
 import org.munaylab.contacto.TipoContacto
 import org.munaylab.direccion.Domicilio
+import org.munaylab.ods.Objetivo
 import org.munaylab.user.User
 
 import grails.compiler.GrailsCompileStatic
@@ -27,7 +28,8 @@ class Organizacion {
         admins: UserOrganizacion,
         miembros: UserOrganizacion,
         voluntarios: Voluntario,
-        contactos: Contacto
+        contactos: Contacto,
+        objetivos: Objetivo
     ]
 
     static constraints = {

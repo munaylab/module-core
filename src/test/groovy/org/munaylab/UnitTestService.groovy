@@ -42,4 +42,6 @@ interface UnitTestService {
     static final DATOS_VOLUNTARIO_INVALIDOS = [orgId: 1, tipoUsuarioId: 1,
         nombre: 'miguel', apellido: 'caligares', nacimiento: new Date()]
 
+    static final DATOS_OBJETIVO = [posicion: 1, nombre: 'Nombre del objetivo', objetivo: 'Objetivo del objetivo valga la redundancia',
+        descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.']
 }

@@ -3,7 +3,6 @@ package org.munaylab.ods
 class Meta {
 
     String posicion
-    String nombre
     String descripcion
 
     static belongsTo = [
@@ -16,7 +15,6 @@ class Meta {
 
     static constraints = {
         posicion size: 1..3
-        nombre size: 5..50
         descripcion blank: false
     }
 

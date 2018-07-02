@@ -6,6 +6,7 @@ class Objetivo {
 
     Integer posicion
     String nombre
+    String objetivo
     String descripcion
 
     static hasMany = [
@@ -14,6 +15,7 @@ class Objetivo {
 
     static constraints = {
         nombre size: 5..50
+        objetivo blank: false
         descripcion blank: false
     }
 
