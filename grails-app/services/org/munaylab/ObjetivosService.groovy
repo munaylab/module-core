@@ -10,6 +10,27 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class ObjetivosService {
 
+    List<Objetivo> obtenerObjetivosOds() {
+        return Objetivo.all
+    }
+
+    Objetivo guardarObjetivoDesdeConfiguracion(objetivoConfig) {
+        Objetivo objetivoOds = Objetivo.findByPosicion(objetivoConfig.posicion)
+
+        if (objetivoOds) return objetivoOds
+
+        objetivoOds = new Objetivo().with {
+            posicion = objetivoConfig.posicion
+            nombre = objetivoConfig.nombre
+            objetivo = objetivoConfig.objetivo
+            descripcion = objetivoConfig.descripcion
+            it
+        }
+        objetivoOds.save()
+
+        return objetivoOds
+    }
+
     Organizacion agregarObjetivo(Organizacion org, Long idObjetivo) {
         if (!idObjetivo || !org) return null
 

@@ -14,6 +14,7 @@ class Objetivo {
     ]
 
     static constraints = {
+        posicion unique: true
         nombre size: 5..50
         objetivo blank: false
         descripcion blank: false

@@ -16,8 +16,13 @@ class ObjetivosServiceSpec extends Specification
         mockDomains Organizacion, Objetivo, Meta, Indicador
     }
 
-    def setup() {
-
+    void 'guardar objetivo desde configuracion'() {
+        when:
+        grailsApplication.config.ods.each { objetivoConfig ->
+            service.guardarObjetivoDesdeConfiguracion(objetivoConfig)
+        }
+        then:
+        Objetivo.count() == 17
     }
 
     void 'agregar un objetivo'() {
@@ -30,6 +35,7 @@ class ObjetivosServiceSpec extends Specification
         !org.hasErrors()
         org.objetivos.size() == 1
     }
+
     void 'agregar un objetivo mas de una vez'() {
         given:
         def objetivo = new Objetivo(DATOS_OBJETIVO).save(flush: true)
@@ -42,6 +48,7 @@ class ObjetivosServiceSpec extends Specification
         !org.hasErrors()
         org.objetivos.size() == 1
     }
+
     void 'eliminar unico objetivo'() {
         given:
         def objetivo = new Objetivo(DATOS_OBJETIVO).save(flush: true)
@@ -53,17 +60,24 @@ class ObjetivosServiceSpec extends Specification
         then:
         org.objetivos.size() == 0
     }
+
     void 'eliminar un objetivo'() {
         given:
         def org = new Organizacion(DATOS_ORG_VERIFICADA)
-                .addToObjetivos(new Objetivo(DATOS_OBJETIVO).save(flush: true))
-                .addToObjetivos(new Objetivo(DATOS_OBJETIVO).save(flush: true))
-                .addToObjetivos(new Objetivo(DATOS_OBJETIVO).save(flush: true))
-                .save(flush: true)
+        3.times {
+            def objetivo = new Objetivo(DATOS_OBJETIVO)
+            objetivo.posicion = it
+            objetivo.save(flush: true);
+            org.addToObjetivos(objetivo)
+        }
+        org.save(flush: true)
         assert org.objetivos.size() == 3
         when:
         service.eliminarObjetivo(org, 1)
         then:
+        Objetivo.count() == 3
         org.objetivos.size() == 2
+        Organizacion.all.first().objetivos.size() == 2
     }
+
 }
