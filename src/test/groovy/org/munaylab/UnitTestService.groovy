@@ -1,0 +1,47 @@
+package org.munaylab
+
+import org.munaylab.osc.EstadoOrganizacion
+import org.munaylab.osc.TipoOrganizacion
+
+interface UnitTestService {
+
+    static final DATOS_REGISTRO_VALIDOS = [denominacion: 'Fundación MunayLab',
+        tipo: TipoOrganizacion.FUNDACION, nombre: 'Augusto', apellido: 'Caligares',
+        email: 'mcaligares@gmail.com', telefono: '1234567',
+        objeto: 'brindar soluciones a las organizaciones sociales',
+        descripcion: 'brindar soluciones a las organizaciones sociales']
+
+    static final DATOS_REGISTRO_INVALIDOS = [denominacion: 'Fundación MunayLab',
+        tipo: TipoOrganizacion.FUNDACION, nombre: 'Miguel', apellido: 'Caligares',
+        objeto: 'brindar soluciones a las organizaciones sociales']
+
+    static final DATOS_ORG_VALIDOS = [nombre: 'Fundación MunayLab', tipo: TipoOrganizacion.FUNDACION,
+        nombreURL: 'fundacion_munaylab', estado: EstadoOrganizacion.PENDIENTE,
+        objeto: 'brindar soluciones a las organizaciones sociales',
+        descripcion: 'brindar soluciones a las organizaciones sociales']
+
+    static final DATOS_ORG_VERIFICADA = [nombre: 'Fundación MunayLab', tipo: TipoOrganizacion.FUNDACION,
+        nombreURL: 'fundacion_munaylab', estado: EstadoOrganizacion.VERIFICADA,
+        objeto: 'brindar soluciones a las organizaciones sociales',
+        descripcion: 'brindar soluciones a las organizaciones sociales']
+
+    static final DATOS_ORG_REGISTRADA = [nombre: 'Fundación MunayLab', tipo: TipoOrganizacion.FUNDACION,
+        nombreURL: 'fundacion_munaylab', estado: EstadoOrganizacion.REGISTRADA,
+        objeto: 'brindar soluciones a las organizaciones sociales',
+        descripcion: 'brindar soluciones a las organizaciones sociales']
+
+    static final DATOS_DOMICILIO_VALIDOS = [calle: 'Peat 32', numero: '570', barrio: 'San Pedrito',
+        localidad: 'San Salvador de Jujuy', provincia: 'Jujuy']
+
+    static final DATOS_USER = [nombre: 'Augusto', apellido: 'Caligares',
+        username: 'mcaligares@gmail.com', password: 'password']
+
+    static final DATOS_VOLUNTARIO_VALIDOS = [orgId: 1, email: 'voluntario@munaylab.org', tipoUsuarioId: 1,
+        nombre: 'miguel', apellido: 'caligares', nacimiento: new Date().parse('yyyy/MM/dd', "1990/1/1")]
+
+    static final DATOS_VOLUNTARIO_INVALIDOS = [orgId: 1, tipoUsuarioId: 1,
+        nombre: 'miguel', apellido: 'caligares', nacimiento: new Date()]
+
+    static final DATOS_OBJETIVO = [posicion: 1, nombre: 'Nombre del objetivo', objetivo: 'Objetivo del objetivo valga la redundancia',
+        descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.']
+}

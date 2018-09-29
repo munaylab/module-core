@@ -1,0 +1,16 @@
+Thumbs.db
+.DS_Store
+.gradle
+gradle
+gradle*
+grailsw*
+grails-wrapper.jar
+build/
+out/
+.idea
+*.iml
+*.ipr
+*.iws
+.project
+.settings
+.classpath

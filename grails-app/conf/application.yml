@@ -1,0 +1,97 @@
+grails:
+    profile: plugin
+    codegen:
+        defaultPackage: munaylab.core
+    gorm:
+        reactor:
+            # Whether to translate GORM events into Reactor events
+            # Disabled by default for performance reasons
+            events: false
+info:
+    app:
+        name: '@info.app.name@'
+        version: '@info.app.version@'
+        grailsVersion: '@info.app.grailsVersion@'
+spring:
+    main:
+        banner-mode: "off"
+    groovy:
+        template:
+            check-template-location: false
+
+# Spring Actuator Endpoints are Disabled by Default
+endpoints:
+    enabled: false
+    jmx:
+        enabled: true
+
+---
+ods:
+  - posicion: 1
+    nombre: 'Fin de la pobreza'
+    objetivo: 'Poner fin a la pobreza en todas sus formas en todo el mundo'
+    descripcion: 'La pobreza va más allá de la falta de ingresos y recursos. Entre sus manifestaciones se incluyen el hambre y la malnutrición, el acceso limitado a la educación y a otros servicios básicos, la discriminación y la exclusión sociales y la falta de participación en la adopción de decisiones. El crecimiento económico debe ser inclusivo con el fin de crear empleos sostenibles y promover la igualdad.'
+  - posicion: 2
+    nombre: 'Hambre cero'
+    objetivo: 'Poner fin al hambre, lograr la seguridad alimentaria y la mejora de la nutrición y promover la agricultura sostenible'
+    descripcion: 'El sector alimentario y el sector agrícola ofrecen soluciones claves para el desarrollo y son vitales para la eliminación del hambre y la pobreza. A través de la agricultura y la silvicultura podemos suministrar comida nutritiva para todos y generar ingresos decentes. Argentina cuenta con suelos prósperos, bosques y biodiversidad, pero estos están siendo rápidamente degradados. El cambio climático está poniendo mayor presión sobre los recursos de los que dependemos y aumentan los riesgos asociados a desastres tales como sequías e inundaciones.'
+  - posicion: 3
+    nombre: 'Salud y bienestar'
+    objetivo: 'Garantizar una vida sana y promover el bienestar para todos en todas las edades'
+    descripcion: 'Para lograr el desarrollo sostenible es fundamental garantizar una vida saludable y promover el bienestar para todos a cualquier edad. Se han obtenido grandes progresos en relación con el aumento de la esperanza de vida y la reducción de algunas de las causas de muerte más comunes relacionadas con la mortalidad infantil y materna. El acceso al agua limpia y el saneamiento llevaron a la reducción de la malaria, la tuberculosis, la poliomielitis y la propagación del VIH/SIDA. Sin embargo, se necesitan muchas más iniciativas para erradicar por completo una amplia gama de enfermedades y hacer frente a numerosas y variadas cuestiones persistentes y emergentes relativas a la salud.'
+  - posicion: 4
+    nombre: 'Educación de calidad'
+    objetivo: 'Garantizar una educación inclusiva, equitativa y de calidad, y promover oportunidades de aprendizaje durante toda la vida para todos'
+    descripcion: 'La consecución de una educación de calidad es la base para mejorar la vida de las personas y el desarrollo sostenible. Incrementar las tasas de escolarización en las escuelas y el nivel mínimo de alfabetización, mejorar el acceso a la educación en todos los niveles y lograr la igualdad entre niños y niñas en la educación primaria, son las metas para garantizar una educación inclusiva y de calidad.'
+  - posicion: 5
+    nombre: 'Igualdad de genero'
+    objetivo: 'Lograr la igualdad de géneros y empoderar a todas las mujeres y niñas'
+    descripcion: 'La igualdad entre los géneros no es solo un derecho humano fundamental, sino la base necesaria para conseguir un mundo pacífico, próspero y sostenible. Si se facilita a las mujeres y niñas igualdad en el acceso a la educación, atención médica, un trabajo decente y representación en los procesos de adopción de decisiones políticas y económicas, se impulsarán las economías sostenibles y se beneficiará a las sociedades y a la humanidad en su conjunto.'
+  - posicion: 6
+    nombre: 'Agua limpia y saneamiento'
+    objetivo: 'Garantizar la disponibilidad de agua y su gestión sostenible y el saneamiento para todos'
+    descripcion: 'El agua libre de impurezas y accesible para todos es parte esencial del mundo en que queremos vivir. Hay suficiente agua dulce en el planeta para lograr este ideal. La escasez de recursos hídricos, la mala calidad del agua y el saneamiento inadecuado influyen negativamente en la seguridad alimentaria y la salud. La sequía afecta a algunos de los países más pobres del mundo, recrudece el hambre y la desnutrición. Para 2050, al menos una de cada cuatro personas probablemente viva en un país afectado por escasez crónica y reiterada de agua dulce.'
+  - posicion: 7
+    nombre: 'Energía asequible y no contaminante'
+    objetivo: 'Garantizar el acceso a una energía asequible, segura, sostenible y moderna para todos'
+    descripcion: 'El acceso a la energía para todos es esencial para casi todos los grandes desafíos con respecto a los empleos, la seguridad, el cambio climático, la producción de alimentos y el aumento de los ingresos. La energía sostenible es una oportunidad que transforma vidas, economías y el medio ambiente; puede asegurar el acceso universal a los servicios de energía modernos, mejorar el rendimiento y aumentar el uso de fuentes renovables.'
+  - posicion: 8
+    nombre: 'Trabajo decente y crecimiento económico'
+    objetivo: 'Promover el crecimiento económico sostenido, inclusivo y sostenible; el empleo pleno y productivo y el trabajo decente para todos'
+    descripcion: 'La continua falta de oportunidades de trabajo decente, la insuficiente inversión y el bajo consumo producen una erosión del contrato social básico subyacente en las sociedades democráticas: el derecho de todos a compartir el progreso. La creación de empleos de calidad seguirá constituyendo un gran desafío para casi todas las economías más allá de 2015. Para conseguir el desarrollo económico sostenible, las sociedades deberán crear las condiciones necesarias para que las personas accedan a empleos de calidad, estimulando la economía sin dañar el medio ambiente. También tendrá que haber oportunidades laborales para toda la población en edad de trabajar, con condiciones de trabajo decentes.'
+  - posicion: 9
+    nombre: 'Industria, innovación e infraestructura'
+    objetivo: 'Construir infraestructuras resilientes, promover la industrialización inclusiva y sostenible y fomentar la innovación'
+    descripcion: 'Las inversiones en infraestructura (transporte, riego, energía y tecnología de la información y las comunicaciones) son fundamentales para lograr el desarrollo sostenible y empoderar a las comunidades en numerosos países. Desde hace tiempo se reconoce que, para conseguir un incremento de la productividad, de los ingresos y mejoras en los resultados sanitarios y educativos, se necesitan inversiones en infraestructura. El ritmo de crecimiento y urbanización también está generando la necesidad de contar con nuevas inversiones en infraestructuras sostenibles que permitirán a las ciudades ser más resistentes al cambio climático e impulsar el crecimiento económico y la estabilidad social.'
+  - posicion: 10
+    nombre: 'Reducción de las desigualdades'
+    objetivo: 'Reducir la desigualdad entre los países'
+    descripcion: 'La comunidad internacional ha logrado grandes avances sacando a las personas de la pobreza. Las naciones más vulnerables -los países menos adelantados, los países en desarrollo sin litoral y los pequeños Estados insulares en desarrollo- continúan avanzando en el ámbito de la reducción de la pobreza. Sin embargo, siguen existiendo desigualdades y grandes disparidades en el acceso a los servicios sanitarios y educativos y a otros bienes productivos. Dentro de los propios países -Argentina uno de ellos- ha aumentado la desigualdad. Existe un consenso cada vez mayor de que el crecimiento económico no es suficiente para reducir la pobreza si este no es inclusivo ni tiene en cuenta las tres dimensiones del desarrollo sostenible: económica, social y ambiental.'
+  - posicion: 11
+    nombre: 'Ciudades y comunidades sostenibles'
+    objetivo: 'Lograr que las ciudades y los asentamientos humanos sean inclusivos, seguros, resilientes y sostenibles'
+    descripcion: 'Los problemas que enfrentan las ciudades se pueden vencer de manera que les permita seguir prosperando y creciendo, y al mismo tiempo aprovechar mejor los recursos y reducir la contaminación y la pobreza. El futuro que queremos incluye a ciudades de oportunidades con acceso a servicios básicos, energía, vivienda, transporte y más facilidades para todos.'
+  - posicion: 12
+    nombre: 'Producción y consumo responsable'
+    objetivo: 'Garantizar modalidades de consumo y producción sostenibles'
+    descripcion: 'El objetivo del consumo y la producción sostenibles es hacer más y mejores cosas con menos recursos, incrementando las ganancias netas de bienestar de las actividades económicas mediante la reducción de la utilización de los recursos, la degradación y la contaminación durante todo el ciclo de vida, logrando al mismo tiempo una mejor calidad de vida. En ese proceso participan diversos actores como las empresas, consumidores, encargados de la formulación de políticas, investigadores, científicos, minoristas, medios de comunicación y organismos de cooperación para el desarrollo.'
+  - posicion: 13
+    nombre: 'Acción por el clima'
+    objetivo: 'Adoptar medidas urgentes para combatir el cambio climático y sus efectos'
+    descripcion: 'Las personas viven en su propia piel las consecuencias del cambio climático. Estos incluyen cambios en los patrones climáticos, el aumento del nivel del mar y los fenómenos meteorológicos más extremos. Las emisiones de gases de efecto invernadero causadas por las actividades humanas hacen que esta amenaza aumente. De hecho, las emisiones nunca habían sido tan altas. Si no actuamos, la temperatura media de la superficie del mundo podría aumentar unos 3 grados centígrados este siglo y en algunas zonas del planeta podría ser todavía peor. Las personas más pobres y vulnerables serán los más perjudicados.'
+  - posicion: 14
+    nombre: 'Vida submarina'
+    objetivo: 'Conservar y utilizar en forma sostenible los océános, los mares y los recursos marinos para el desarrollo'
+    descripcion: 'Los océanos del mundo - su temperatura, química, corrientes y vida - mueven sistemas mundiales que hacen que la Tierra sea habitable para la humanidad. Nuestras precipitaciones, el agua potable, el clima, el tiempo, las costas, gran parte de nuestros alimentos e incluso el oxígeno del aire que respiramos provienen del mar y son regulados por este. Históricamente, los océanos y los mares han sido cauces vitales del comercio y el transporte. La gestión prudente de este recurso mundial esencial es una característica clave del futuro sostenible.'
+  - posicion: 15
+    nombre: 'Vida de ecosistemas terrestres'
+    objetivo: 'Promover el uso sostenible de los ecosistemas terrestres, luchar contra la desertificación, detener e invertir la degradación de las tierras y frenar la pérdida de la diversidad biológica'
+    descripcion: 'Los bosques, además de proporcionar seguridad alimentaria y refugio, son fundamentales para combatir el cambio climático, ya que protegen la diversidad biológica y las viviendas de la población indígena. Cada año desaparecen 13 millones de hectáreas de bosque y la degradación persistente de las zonas áridas ha provocado la desertificación de 3.600 millones de hectáreas. La deforestación y la desertificación - provocadas por las actividades humanas y el cambio climático -  suponen grandes retos para el desarrollo sostenible y han afectado a las vidas y los medios de vida de millones de personas en la lucha contra la pobreza.'
+  - posicion: 16
+    nombre: 'Paz, justicia e instituciones sólidas'
+    objetivo: 'Promover sociedades pacíficas e inclusivas para el desarrollo sostenible, facilitar el acceso a la justicia para todos y crear instituciones eficaces, responsables e inclusivas a todos los niveles'
+    descripcion: 'El acceso a la justicia para todos y la construcción de instituciones responsables y eficaces a todos los niveles de la comunidad son condiciones indispensables para la promoción de sociedades pacíficas e inclusivas para el desarrollo sostenible.'
+  - posicion: 17
+    nombre: 'Alianzas para lograr los objetivos'
+    objetivo: 'Fortalecer los medios de ejecución y revitalizar la alianza mundial para el desarrollo sostenible'
+    descripcion: 'Para que una agenda de desarrollo sostenible sea eficaz se necesitan alianzas entre los gobiernos, el sector privado y la sociedad civil. Estas alianzas inclusivas se construyen sobre la base de principios y valores, una visión compartida y objetivos comunes que otorgan prioridad a las personas y al planeta, y son necesarias a nivel mundial, regional, nacional y local. Entre estos sectores figuran la. El sector público deberá establecer una orientación clara con respecto a la inversión en energía sostenible, la infraestructura y el transporte, así como las tecnologías de la información y las comunicaciones. Deben reformularse los marcos de examen y vigilancia, los reglamentos y las estructuras de incentivos que facilitan esas inversiones a fin de atraer inversiones y fortalecer el desarrollo sostenible. También deben fortalecerse los mecanismos nacionales de vigilancia, en particular las instituciones superiores de auditoría y la función de fiscalización que corresponde al poder legislativo.'
