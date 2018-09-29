@@ -13,10 +13,10 @@ class MunaylabCoreGrailsPlugin extends Plugin {
 
     // TODO Fill in these fields
     def title = "Munaylab Core" // Headline display name of the plugin
-    def author = "Your name"
-    def authorEmail = ""
+    def author = "Munaylab Team"
+    def authorEmail = "team@munaylab.org"
     def description = '''\
-Brief summary/description of the plugin.
+Munaylab Core Plugin.
 '''
 
     // URL to the plugin's documentation
@@ -25,13 +25,13 @@ Brief summary/description of the plugin.
     // Extra (optional) plugin metadata
 
     // License: one of 'APACHE', 'GPL2', 'GPL3'
-//    def license = "APACHE"
+   def license = "GPL3"
 
     // Details of company behind the plugin (if there is one)
-//    def organization = [ name: "My Company", url: "http://www.my-company.com/" ]
+   def organization = [ name: "Munaylab", url: "http://munaylab.org/" ]
 
     // Any additional developers beyond the author specified above.
-//    def developers = [ [ name: "Joe Bloggs", email: "joe@bloggs.net" ]]
+   def developers = [ [ name: "Augusto Caligares", email: "mcaligares@munaylab.org" ]]
 
     // Location of the plugin's issue tracker.
 //    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
