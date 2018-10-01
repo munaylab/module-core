@@ -9,7 +9,7 @@ buildscript {
 }
 
 version "0.1"
-group "munaylab.core"
+group "org.munaylab.core"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
@@ -49,18 +49,18 @@ bootRun {
     String springProfilesActive = 'spring.profiles.active'
     systemProperty springProfilesActive, System.getProperty(springProfilesActive)
 }
-// enable if you wish to package this plugin as a standalone application
+
 bootRepackage.enabled = false
 grailsPublish {
     user = 'team@munaylab.com'
     key = 'key'
     githubSlug = 'foo/bar'
     license {
-        name = 'Apache-2.0'
+        name = 'GPL3'
     }
-    title = "Munaylab-Core"
-    desc = "Munaylab Core Plugin"
-    developers = [mcaligares:"Augusto Caligares"]
+    title = "Core Module"
+    desc = "Munaylab Core Module"
+    developers = [team:"team@munaylab.org"]
 }
 
 test {
