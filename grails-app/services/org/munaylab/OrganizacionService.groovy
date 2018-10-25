@@ -30,28 +30,74 @@ class OrganizacionService {
     def securityService
 
     Organizacion registrar(RegistroCommand command) {
-        if (!command || !command.validate())
-            return null
+        if (siLosParametrosSonInvalidos(command)) return null
 
-        User representante = command.representante
-        Contacto email = new Contacto(tipo: TipoContacto.EMAIL, value: command.email)
-        Contacto telefono = new Contacto(tipo: TipoContacto.TELEFONO, value: command.telefono)
-        representante.addToContactos(email)
-        representante.addToContactos(telefono)
+        User representante = obtenerRepresentanteConDatosDeContacto(command)
+        Organizacion organizacion = obtenerOrganizacion(command)
+        organizacion = asignarAdminDeOrganizacion(representante, organizacion)
+        organizacion.save()
 
-        Organizacion org = command.organizacion
-        UserOrganizacion admin = new UserOrganizacion(user: representante,
-            organizacion: org, tipo: TipoUsuario.findByNombre('ADMINISTRADOR'))
-        org.addToAdmins(admin)
-        org.save()
-
-        if (!org.hasErrors()) {
-            log.info "organizacion registrada id = ${org.id}"
-            Role role = Role.findByAuthority('ROLE_OSC_ADMIN')
-            UserRole adminRole = new UserRole(user: representante, role: role)
-            adminRole.save()
+        if (!organizacion.hasErrors()) {
+            log.info "Nueva organizacion registrada id = ${organizacion.id}"
+            asignarRolDeAdminDeOrganizacion(representante).save()
         }
-        return org
+        return organizacion
+    }
+
+    private boolean siLosParametrosSonInvalidos(command) {
+        return !command || !command.validate()
+    }
+
+    private User obtenerRepresentanteConDatosDeContacto(RegistroCommand command) {
+        return new User().with {
+            username = command.email
+            nombre = command.nombre
+            apellido = command.apellido
+            password = UUID.randomUUID()
+            accountLocked = true
+            it
+        }
+        .addToContactos(new Contacto().with {
+            tipo = TipoContacto.EMAIL
+            value = command.email
+            it
+        })
+        .addToContactos(new Contacto().with {
+            tipo = TipoContacto.TELEFONO
+            value = command.telefono
+            it
+        })
+    }
+
+    private Organizacion obtenerOrganizacion(RegistroCommand command) {
+        return new Organizacion().with {
+            nombre = command.denominacion
+            objeto = command.objeto
+            descripcion = command.descripcion
+            nombreURL = command.nombreURL
+            tipo = command.tipo
+            estado = EstadoOrganizacion.PENDIENTE
+            it
+        }
+    }
+
+    private Organizacion asignarAdminDeOrganizacion(User userToAssign, Organizacion org) {
+        TipoUsuario tipoAdministrador = TipoUsuario.findByNombre('ADMINISTRADOR')
+        if (!tipoAdministrador) throw new Exception('Tipo administrador no encontrado')
+
+        return org.addToAdmins(new UserOrganizacion().with {
+            user = userToAssign
+            organizacion = org
+            tipo = tipoAdministrador
+            it
+        })
+    }
+
+    private UserRole asignarRolDeAdminDeOrganizacion(User representante) {
+        Role rolDeAdministrador = Role.findByAuthority('ROLE_OSC_ADMIN')
+        if (!rolDeAdministrador) throw new Exception('Rol de administrador de OSC no encontrado')
+
+        return new UserRole(user: representante, role: rolDeAdministrador)
     }
 
     Organizacion confirmar(ConfirmacionCommand command, User user) {
